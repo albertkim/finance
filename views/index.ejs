@@ -4,8 +4,11 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
-		<script src="/javascripts/jquery.js"></script>
-		<script src="/javascripts/bootstrap.js"></script>
+		<script src="/javascripts/utils.js"></script>
+		<script src="/javascripts/libraries/jquery.js"></script>
+		<script src="/javascripts/libraries/underscore.js"></script>
+		<script src="/javascripts/libraries/bootstrap.js"></script>
+		<script src="/javascripts/libraries/Chartjs/Chart.js"></script>
 		<script src="/javascripts/index.js"></script>
 	</head>
 
@@ -30,12 +33,13 @@
 				<% for(var i=0; i<stocks.length; i++){ %>
 					<div class="row stock-row">
 						<div class="col-lg-3 summary">
-							<%- stocks[i].ticker %>
+							<strong style="font-size: 200%"><%- stocks[i].ticker %></strong>
+							<br>
 						</div>
-						<div class="col-lg-6 chart">
-							Historical Chart
+						<div class="col-lg-6" style="padding: 0">
+							<canvas class="chart" width="300px" height="120px"></canvas>
 						</div>
-						<div class="col-lg-3 news">
+						<div class="col-lg-3 news" style="padding-left: 20px">
 							<strong>News</strong>
 							<p>News article 1</p>
 							<p>News article 2</p>
@@ -50,7 +54,9 @@
 	</body>
 
 	<script type="text/javascript">
-		index.init(<%- JSON.stringify(stocks) %>);
+		index.init({
+			stocks: <%- JSON.stringify(stocks) %>
+		});
 	</script>
 
 </html>
