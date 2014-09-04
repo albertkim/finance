@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+		<script src="/javascripts/jquery.js"></script>
+		<script src="/javascripts/bootstrap.js"></script>
+		<script src="/javascripts/index.js"></script>
+	</head>
+
+	<body style="padding: 0px;">
+
+		<% include partials/header %>
+
+		<div class="jumbotron" style="background-color: #113C51; color: white; top: 50px;">
+			<div class="container">
+				<h1>Finance</h1>
+				<p>The simplest way to stay up to date with finance</p>
+			</div>
+		</div>
+
+		<div class="container">
+			<% if(currentUser != undefined) { %>
+				<!-- If the user is logged in, show customized home page -->
+
+			<% } else { %>
+				<!-- If the user is not logged in, show generic home page -->
+				<hr>
+				<% for(var i=0; i<stocks.length; i++){ %>
+					<div class="row stock-row">
+						<div class="col-lg-3 summary">
+							<%- stocks[i].ticker %>
+						</div>
+						<div class="col-lg-6 chart">
+							Historical Chart
+						</div>
+						<div class="col-lg-3 news">
+							<strong>News</strong>
+							<p>News article 1</p>
+							<p>News article 2</p>
+							<p>News article 3</p>
+						</div>
+					</div>
+					<hr>
+				<% } %>
+			<% }; %>
+		</div>
+
+	</body>
+
+	<script type="text/javascript">
+		index.init(<%- JSON.stringify(stocks) %>);
+	</script>
+
+</html>
