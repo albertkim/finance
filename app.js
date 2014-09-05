@@ -1,6 +1,7 @@
 express = require('express');
 router = express.Router();
 session = require("cookie-session");
+bcrypt = require("bcrypt-nodejs");
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');

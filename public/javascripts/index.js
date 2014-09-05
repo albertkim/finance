@@ -1,15 +1,38 @@
 var index = (function(){
 
 	var stocks;
+	var portfolios;
 	var stockRowElements;
+	var portfolioRowElements;
 
 	var init = function(parameters){
-		console.log(parameters);
+
+		// Initialize stocks and portfolios
 		if(parameters.stocks != undefined){
 			stocks = parameters.stocks
 		}
+		if(parameters.portfolios != undefined){
+			portfolios = parameters.portfolios;
+		}
 
 		stockRowElements = $(".stock-row");
+		portfolioRowElements = $(".portfolio-row");
+
+		// Initialize Jquery-UI's sortable on each list
+		$("#stocksList").sortable({
+			appendTo: document.body,
+			update: function(event, ui) {
+				var newOrder = $("#stocksList").sortable('toArray');
+				// Update the data representations
+				stocks = _.map(newOrder, function(ticker){
+					return {ticker: ticker}
+				});
+				// Update the ui element representations
+				stockRowElements = $(".stock-row");
+				// Update database via ajax
+				
+			}
+		});
 
 		// Make YQL request per stock row
 		for(var i=0; i<stockRowElements.length; i++){

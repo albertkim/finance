@@ -41,10 +41,7 @@ var drawChart = function(selector, data){
     labels: dateList,
     datasets: [{
         fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
         pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)",
         data: parsedList
     }]
   };
@@ -57,14 +54,19 @@ var drawSummary = function(selector, data){
 
 	// Get most recent datapoint
 	var recentData = data.query.results.quote[data.query.results.quote.length-1];
-	console.log(recentData);
 
 	var closePrice = recentData.Adj_Close;
 	var changePrice = Number(recentData.Adj_Close) - Number(recentData.Open);
+	changePrice = changePrice.toFixed(2);
 
-	selector.append(closePrice);
+	selector.append("<strong style='font-size: 200%'>" + closePrice + "</strong>");
 	selector.append($("<br>"));
-	
-	selector.append(changePrice);
+	if(changePrice == 0){
+		selector.append("<strong style='font-size: 200%; color: black'>" + changePrice + "</strong>");
+	}	else if(changePrice < 0){
+		selector.append("<strong style='font-size: 200%; color: #CC0000'>" + changePrice + "</strong>");
+	} else{
+		selector.append("<strong style='font-size: 200%; color: #00CC00'>" + changePrice + "</strong>");
+	}
 
 };

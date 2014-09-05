@@ -4,8 +4,10 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 		<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui.min.css">
 		<script src="/javascripts/utils.js"></script>
 		<script src="/javascripts/libraries/jquery.js"></script>
+		<script src="/javascripts/libraries/jquery-ui.min.js"></script>
 		<script src="/javascripts/libraries/underscore.js"></script>
 		<script src="/javascripts/libraries/bootstrap.js"></script>
 		<script src="/javascripts/libraries/Chartjs/Chart.js"></script>
@@ -29,33 +31,59 @@
 
 			<% } else { %>
 				<!-- If the user is not logged in, show generic home page -->
-				<hr>
-				<% for(var i=0; i<stocks.length; i++){ %>
-					<div class="row stock-row">
-						<div class="col-lg-3 summary">
-							<strong style="font-size: 200%"><%- stocks[i].ticker %></strong>
-							<br>
+
+				<div id="portfolioList">
+					<% for(var i=0; i<portfolios.length; i++){ %>
+						<div class="row portfolio-row" id="%- portfolios[i].name %>">
+							<div class="col-lg-2 summary">
+								<strong style="font-size: 200%"><a><%- portfolios[i].name %></a></strong>
+								<strong style="font-size: 200%">(Portfolio)</strong>
+								<br>
+							</div>
+							<div class="col-lg-6" style="padding: 0">
+								<canvas class="chart" width="300px" height="120px"></canvas>
+							</div>
+							<div class="col-lg-4 news" style="padding-left: 20px">
+								<strong>News</strong>
+								<a><p>News article 1</p></a>
+								<a><p>News article 2</p></a>
+								<a><p>News article 3</p></a>
+							</div>
+							<hr>
 						</div>
-						<div class="col-lg-6" style="padding: 0">
-							<canvas class="chart" width="300px" height="120px"></canvas>
+					<% } %>
+				</div> <!-- portfolioList -->
+
+				<div id="stocksList">
+					<% for(var i=0; i<stocks.length; i++){ %>
+						<div class="row stock-row" id="<%- stocks[i].ticker %>">
+							<div class="col-lg-2 summary">
+								<strong style="font-size: 200%"><a><%- stocks[i].ticker %></a></strong>
+								<br>
+							</div>
+							<div class="col-lg-6" style="padding: 0">
+								<canvas class="chart" width="300px" height="120px"></canvas>
+							</div>
+							<div class="col-lg-4 news" style="padding-left: 20px">
+								<strong>News</strong>
+								<a><p>News article 1 stocks go soaring!</p></a>
+								<a><p>News article 2 stocks tank</p></a>
+								<a><p>News article 3 the end of the financial markets</p></a>
+							</div>
+							<hr>
 						</div>
-						<div class="col-lg-3 news" style="padding-left: 20px">
-							<strong>News</strong>
-							<p>News article 1</p>
-							<p>News article 2</p>
-							<p>News article 3</p>
-						</div>
-					</div>
-					<hr>
-				<% } %>
+					<% } %>
+				</div>	<!-- stocksList -->
+
 			<% }; %>
-		</div>
+		</div>	<!-- container -->
 
 	</body>
 
 	<script type="text/javascript">
 		index.init({
-			stocks: <%- JSON.stringify(stocks) %>
+			stocks: <%- JSON.stringify(stocks) %>,
+			portfolios: <%- JSON.stringify(portfolios) %>
 		});
 	</script>
 
