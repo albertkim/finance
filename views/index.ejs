@@ -21,7 +21,7 @@
 		<div class="jumbotron" style="background-color: #113C51; color: white; top: 50px;">
 			<div class="container">
 				<h1>Finance</h1>
-				<p>The simplest way to stay up to date with finance</p>
+				<p>The simplest way to stay up to date with your portfolio</p>
 			</div>
 		</div>
 
@@ -31,6 +31,36 @@
 
 			<% } else { %>
 				<!-- If the user is not logged in, show generic home page -->
+
+				<!-- Add stock -->
+				<div class="row">
+					<div class="col-lg-2" id="addPortfolio">
+						<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
+						Add a portfolio
+					</div>
+					<div class="col-lg-2" id="addStock">
+						<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
+						Add a stock
+					</div>
+					<br><br><br>
+				</div>
+
+				<div class="row" id="addStockRow">
+					
+			    <form role="form" action="/addStock" method="POST">
+			    	<div class="col-lg-2">
+			    		<div class="form-group">
+			        	<input type="text" name="ticker" class="form-control" id="tickerInput" placeholder="ex. APPL">
+			      	</div>
+			      </div>
+			      <div class="col-lg-1" style="padding: 0px">
+			      	<button type="submit" class="btn btn-default">Submit</button>
+			      </div>
+			    </form>
+
+			    <br><Br>
+			    <hr>
+				</div>
 
 				<div id="portfolioList">
 					<% for(var i=0; i<portfolios.length; i++){ %>
@@ -43,11 +73,15 @@
 							<div class="col-lg-6" style="padding: 0">
 								<canvas class="chart" width="300px" height="120px"></canvas>
 							</div>
-							<div class="col-lg-4 news" style="padding-left: 20px">
+							<div class="col-lg-3 news" style="padding-left: 20px">
 								<strong>News</strong>
 								<a><p>News article 1</p></a>
 								<a><p>News article 2</p></a>
 								<a><p>News article 3</p></a>
+							</div>
+							<div class="col-lg-1 options">
+								<p><a>Edit</a></p>
+								<p><a>Delete</a></p>
 							</div>
 							<hr>
 						</div>
@@ -64,11 +98,15 @@
 							<div class="col-lg-6" style="padding: 0">
 								<canvas class="chart" width="300px" height="120px"></canvas>
 							</div>
-							<div class="col-lg-4 news" style="padding-left: 20px">
+							<div class="col-lg-3 news" style="padding-left: 20px">
 								<strong>News</strong>
 								<a><p>News article 1 stocks go soaring!</p></a>
 								<a><p>News article 2 stocks tank</p></a>
 								<a><p>News article 3 the end of the financial markets</p></a>
+							</div>
+							<div class="col-lg-1 options">
+								<p><a>Edit</a></p>
+								<p><a>Delete</a></p>
 							</div>
 							<hr>
 						</div>

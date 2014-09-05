@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 
 // Mongodb connectivity
 mongoose.connect("mongodb://localhost:27017/finance");
+
 // Require all files in /models directory
 fs.readdirSync(__dirname + "/models").forEach(function(filename){
   if(~filename.indexOf(".js")){
