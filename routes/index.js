@@ -1,4 +1,3 @@
-/* GET home page. */
 router.get('/', function(req, res) {
 	var portfolios = [
 		{
@@ -20,6 +19,7 @@ router.get('/', function(req, res) {
 		{ticker: "TSLA"},
 		{ticker: "MSFT"}
 	];
+
   res.render('index', {
   	stocks: stocks,
   	portfolios: portfolios,
