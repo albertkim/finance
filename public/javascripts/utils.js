@@ -8,7 +8,7 @@ var drawChartFromTicker = function(ticker, row){
   var currentDate = new Date();
   var currentDateString = currentDate.getFullYear() + "-" + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + "0" + currentDate.getDay();
   var date6MonthsAgo = new Date();;
-  var date6MonthsAgo = new Date(date6MonthsAgo.setMonth(currentDate.getMonth() - 6));
+  var date6MonthsAgo = new Date(date6MonthsAgo.setMonth(currentDate.getMonth() - 3));
   var date6MonthsAgoString = date6MonthsAgo.getFullYear() + "-" + ("0" + (date6MonthsAgo.getMonth() + 1)).slice(-2) + "-" + "0" + date6MonthsAgo.getDay();
   
   var query = 'select * from yahoo.finance.historicaldata where symbol = "' 

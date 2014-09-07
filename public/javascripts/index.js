@@ -33,15 +33,19 @@ var index = (function(){
 			console.log($(stockRowElements[0]));
 			drawChartFromTicker(ticker, $(stockRowElements[0]));
 			
-			/*
+			
 			stocks.push({ticker: ticker});
-			$.post("/addStocks",
-				{
-					portfolios: portfolios,
-					stocks: stocks
+			$.ajax({
+				url: "/addStock",
+				type: "POST",
+				data: {
+					ticker: ticker
+				},
+				success: function(data){
+					location.reload();
 				}
-			);
-			*/
+			});
+			
 		});
 
 		// Initialize Jquery-UI's sortable on each list
@@ -63,9 +67,22 @@ var index = (function(){
 		// Make YQL request per stock row
 		for(var i=0; i<stockRowElements.length; i++){
 			(function(i, stocks, stockRowElements){
+				var stockRowElement = $(stockRowElements[i]);
 				var stock = stocks[i];
 				var ticker = stock.ticker;
-				drawChartFromTicker(ticker, $(stockRowElements[i]));
+				drawChartFromTicker(ticker, stockRowElement);
+				stockRowElement.find(".delete").on("click", function(){
+					$.ajax({
+						url: "/deleteStock",
+						type: "POST",
+						data: {
+							ticker: ticker
+						},
+						success: function(data){
+							location.reload();
+						}
+					});
+				});
 			})(i, stocks, stockRowElements);
 		}
 

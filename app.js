@@ -2,6 +2,9 @@ express = require('express');
 router = express.Router();
 session = require("cookie-session");
 bcrypt = require("bcrypt-nodejs");
+async = require("async");
+_ = require("underscore");
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -49,10 +52,12 @@ app.use("/users", users);
 app.use("/register", register);
 
 app.get("/allUsers", loginActions.showAllUsers);
+app.get("/logout", loginActions.logout);
 
-app.post("/addStocks", stockActions.addStocks);
+app.post("/addStock", stockActions.addStock);
 app.post("/login", loginActions.login);
 app.post("/logout", loginActions.logout);
+app.post("/deleteStock", stockActions.deleteStock);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

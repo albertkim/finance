@@ -15,6 +15,8 @@
     "ejs": "*",
     "mongoose": "*",
     "bcrypt-nodejs": "*",
-    "cookie-session": "*"
+    "cookie-session": "*",
+    "async": "*",
+    "underscore": "*"
   }
 }

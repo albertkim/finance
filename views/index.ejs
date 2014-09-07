@@ -27,96 +27,91 @@
 		</div>
 
 		<div class="container">
-			<% if(currentUser != undefined) { %>
-				<!-- If the user is logged in, show customized home page -->
 
-			<% } else { %>
-				<!-- If the user is not logged in, show generic home page -->
-
-				<!-- Add stock -->
-				<div class="row">
-					<div class="col-lg-2" id="addPortfolio">
-						<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
-						Add a portfolio
-					</div>
-					<div class="col-lg-2" id="addStock">
-						<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
-						Add a stock
-					</div>
-					<br><br><br>
+			<!-- Add stock -->
+			<div class="row">
+				<div class="col-lg-2" id="addPortfolio">
+					<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
+					Add a portfolio
 				</div>
-
-				<div class="row" id="addStockRow">
-					
-		    	<div class="col-lg-2">
-		    		<div class="form-group">
-		        	<input type="text" name="ticker" class="form-control" id="tickerInput" placeholder="ex. AAPL">
-		      	</div>
-		      </div>
-		      <div class="col-lg-1" style="padding: 0px">
-		      	<button id="stockSubmit" class="btn btn-default">Add</button>
-		      </div>
-
-			    <br><Br>
-			    <hr>
+				<div class="col-lg-2" id="addStock">
+					<img src="/images/addIcon.png" style="width: 30px; margin-right: 10px">
+					Add a stock
 				</div>
+				<br><br><br>
+			</div>
 
-				<div id="portfolioList">
-					<% for(var i=0; i<portfolios.length; i++){ %>
-						<div class="row portfolio-row" id="%- portfolios[i].name %>">
-							<div class="col-lg-2 summary">
-								<strong style="font-size: 200%"><a><%- portfolios[i].name %></a></strong>
-								<strong style="font-size: 200%">(Portfolio)</strong>
-								<br>
-							</div>
-							<div class="col-lg-6" style="padding: 0">
-								<canvas class="chart" width="300px" height="120px"></canvas>
-							</div>
-							<div class="col-lg-3 news" style="padding-left: 20px">
-								<strong>News</strong>
-								<a><p>News article 1</p></a>
-								<a><p>News article 2</p></a>
-								<a><p>News article 3</p></a>
-							</div>
-							<div class="col-lg-1 options">
-								<p><a>Edit</a></p>
-								<p><a>Delete</a></p>
-							</div>
-							<div class="col-lg-12">
-								<hr>
-							</div>
+			<div class="row" id="addStockRow">
+	    	<div class="col-lg-2">
+	    		<div class="form-group">
+	        	<input type="text" name="ticker" class="form-control" id="tickerInput" placeholder="ex. AAPL">
+	      	</div>
+	      </div>
+	      <div class="col-lg-1" style="padding: 0px">
+	      	<button id="stockSubmit" class="btn btn-default">Add</button>
+	      </div>
+
+		    <br><Br>
+		    <hr>
+			</div>
+			
+			<!-- If the user is not logged in, show generic home page -->
+			<div id="portfolioList">
+				<% for(var i=0; i<portfolios.length; i++){ %>
+					<div class="row portfolio-row" id="%- portfolios[i].name %>">
+						<div class="col-lg-2 summary">
+							<strong style="font-size: 200%"><a><%- portfolios[i].name %></a></strong>
+							<strong style="font-size: 200%">(Portfolio)</strong>
+							<br>
 						</div>
-					<% } %>
-				</div> <!-- portfolioList -->
-
-				<div id="stocksList">
-					<% for(var i=0; i<stocks.length; i++){ %>
-						<div class="row stock-row" id="<%- stocks[i].ticker %>">
-							<div class="col-lg-2 summary">
-								<strong style="font-size: 200%"><a><%- stocks[i].ticker %></a></strong>
-								<br>
-							</div>
-							<div class="col-lg-6" style="padding: 0">
-								<canvas class="chart" width="300px" height="120px"></canvas>
-							</div>
-							<div class="col-lg-3 news" style="padding-left: 20px">
-								<strong>News</strong>
-								<a><p>News article 1 stocks go soaring!</p></a>
-								<a><p>News article 2 stocks tank</p></a>
-								<a><p>News article 3 the end of the financial markets</p></a>
-							</div>
-							<div class="col-lg-1 options">
-								<p><a>Edit</a></p>
-								<p><a>Delete</a></p>
-							</div>
-							<div class="col-lg-12">
-								<hr>
-							</div>
+						<div class="col-lg-6" style="padding: 0">
+							<canvas class="chart" width="300px" height="120px"></canvas>
 						</div>
-					<% } %>
-				</div>	<!-- stocksList -->
+						<div class="col-lg-3 news" style="padding-left: 20px">
+							<strong>News</strong>
+							<a><p>News article 1</p></a>
+							<a><p>News article 2</p></a>
+							<a><p>News article 3</p></a>
+						</div>
+						<div class="col-lg-1 options">
+							<p><a>Edit</a></p>
+							<p class="delete"><a>Delete</a></p>
+						</div>
+						<div class="col-lg-12">
+							<hr>
+						</div>
+					</div>
+				<% } %>
+			</div> <!-- portfolioList -->
 
-			<% }; %>
+			<div id="stocksList">
+				<% for(var i=0; i<stocks.length; i++){ %>
+					<div class="row stock-row" id="<%- stocks[i].ticker %>">
+						<div class="col-lg-2 summary">
+							<strong style="font-size: 200%"><a><%- stocks[i].ticker %></a></strong>
+							<br>
+						</div>
+						<div class="col-lg-6" style="padding: 0">
+							<canvas class="chart" width="300px" height="120px"></canvas>
+						</div>
+						<div class="col-lg-3 news" style="padding-left: 20px">
+							<strong>News</strong>
+							<a><p>News article 1 stocks go soaring!</p></a>
+							<a><p>News article 2 stocks tank</p></a>
+							<a><p>News article 3 the end of the financial markets</p></a>
+						</div>
+						<div class="col-lg-1 options">
+							<p><a>Edit</a></p>
+							<p class="delete"><a>Delete</a></p>
+						</div>
+						<div class="col-lg-12">
+							<hr>
+						</div>
+					</div>
+				<% } %>
+			</div>	<!-- stocksList -->
+
+			
 		</div>	<!-- container -->
 
 	</body>
@@ -145,7 +140,7 @@
 			</div>
 			<div class="col-lg-1 options">
 				<p><a>Edit</a></p>
-				<p><a>Delete</a></p>
+				<p class="delete"><a>Delete</a></p>
 			</div>
 			<div class="col-lg-12">
 				<hr>
