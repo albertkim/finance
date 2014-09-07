@@ -20,7 +20,11 @@
 	      	<button type="submit" class="btn btn-default">Submit</button>
 	      </div>
 	      <div class="navbar-form navbar-right">
-	      	<a id="logoutButton" href="/logout" class="btn btn-default" style="margin-left: 10px;">Logout</a>
+	      	<form role="form" action="/logout" method="POST">
+	      		<div class="form-group">
+	      			<button id="logoutButton" type="submit" class="btn btn-default" style="margin-left: 10px;">Logout</button>
+	      		</div>
+	      	</form>
 	      </div>
 	      <ul class="nav navbar-nav navbar-right">
 	      	<li class="active"><a href="/manageUsers">Manage Users</a></li>
@@ -38,25 +42,34 @@
 	    	<a class="navbar-brand" href="/">Finance</a>
 	    </div>
 	    <div class="collapse navbar-collapse">
+
 	      <ul class="nav navbar-nav">
 	      	<li class="active"><a href="/">FAQ</a></li>
 	      </ul>
+
 	      <div class="navbar-form navbar-left" role="search">
 	      	<div class="form-group">
 	      		<input id="searchInput" type="text" class="form-control" placeholder="Search">
 	      	</div>
 	      	<button type="submit" class="btn btn-default">Submit</button>
 	      </div>
+
 	      <div class="navbar-form navbar-right">
-	      	<div class="form-group">
-	      		<input id="usernameInput" type="text" class="form-control" placeholder="Username">
-	      	</div>
-	      	<div class="form-group">
-	      		<input id="passwordInput" type="password" class="form-control" placeholder="Password">
-	      	</div>
-	      	<button id="loginButton" class="btn btn-default">Login</button>
 	      	<a id="registerButton" type="submit" class="btn btn-default" href="/register">Register</a>
 	      </div>
+
+	      <div class="navbar-form navbar-right">
+	      	<form role="form" action="/login" method="POST">
+		      	<div class="form-group">
+		      		<input id="usernameInput" name="username" type="text" class="form-control" placeholder="Username">
+		      	</div>
+		      	<div class="form-group">
+		      		<input id="passwordInput" name="password" type="password" class="form-control" placeholder="Password">
+		      	</div>
+		      	<button id="loginButton" type="submit" class="btn btn-default">Login</button>
+	      	</form>
+	      </div>	<!-- navbar form -->
+	      
 	    </div>
 	  </div>
 	</div>

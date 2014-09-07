@@ -15,6 +15,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
 var stockActions = require("./routes/stockActions");
+var loginActions = require("./routes/loginActions");
 
 var app = express();
 
@@ -39,11 +40,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  keys: ['key1', 'key2'],
+}));
 
 app.use("/", routes);
 app.use("/users", users);
 app.use("/register", register);
-app.use("/addStocks", stockActions);
+
+app.get("/allUsers", loginActions.showAllUsers);
+
+app.post("/addStocks", stockActions.addStocks);
+app.post("/login", loginActions.login);
+app.post("/logout", loginActions.logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

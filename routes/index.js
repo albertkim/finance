@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
   res.render('index', {
   	stocks: stocks,
   	portfolios: portfolios,
-  	currentUser: undefined });
+  	currentUser: req.session.currentUser });
 });
 
 module.exports = router;

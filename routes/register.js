@@ -34,7 +34,6 @@ router.post("/register", function(req, res) {
 		var data = {
 			username: username,
 			password: hashedPassword,
-			accountType: body.accountType,
 			email: email
 		};
 		
@@ -43,6 +42,7 @@ router.post("/register", function(req, res) {
 			if(error){
 				console.log(error);
 			} else{
+				console.log("User successfully created");
 				console.log(user);
 			}
 		});

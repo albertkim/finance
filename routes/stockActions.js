@@ -1,4 +1,4 @@
-router.post("/addStocks", function(req, res){
+exports.addStocks = function(req, res){
 	console.log(req.body);
 	var body = JSON.parse(req.body);
 	console.log(req.body.stocks);
@@ -8,7 +8,5 @@ router.post("/addStocks", function(req, res){
   res.render('index', {
   	stocks: stocks,
   	portfolios: portfolios,
-  	currentUser: undefined });
-});
-
-module.exports = router;
+  	currentUser: req.session.currentUser });
+};
