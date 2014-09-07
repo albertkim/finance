@@ -54,10 +54,11 @@ app.use("/register", register);
 app.get("/allUsers", loginActions.showAllUsers);
 app.get("/logout", loginActions.logout);
 
-app.post("/addStock", stockActions.addStock);
 app.post("/login", loginActions.login);
 app.post("/logout", loginActions.logout);
+app.post("/addStock", stockActions.addStock);
 app.post("/deleteStock", stockActions.deleteStock);
+app.post("/reorderStocks", stockActions.reorderStocks);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

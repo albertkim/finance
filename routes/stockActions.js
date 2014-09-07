@@ -1,3 +1,4 @@
+// Expected: {ticker: ticker}
 exports.addStock = function(req, res){
 	
 	var ticker = req.body.ticker;
@@ -28,6 +29,7 @@ exports.addStock = function(req, res){
 	});
 };
 
+// Expected: {ticker: "ticker"}
 exports.deleteStock = function(req, res){
 
 	var ticker = req.body.ticker;
@@ -57,5 +59,41 @@ exports.deleteStock = function(req, res){
 			});
 		}
 	});
+
+};
+
+// Expected: {tickers: ["ticker1", "ticker2", "ticker3", ...]}
+exports.reorderStocks = function(req, res){
+	// Iterate through the given tickers, find the stock object, and place in a new list
+	// Make use of handy underscore functions
+	var tickers = req.body.tickers;
+	console.log(tickers);
+
+	var currentUser = req.session.currentUser;
+	var userModel = mongoose.model("users");
+	userModel.findOne({_id: currentUser._id}, function(error, user){
+		if(error){
+
+		} else {
+			var reorderedStocks = [];
+			for(var i=0; i<tickers.length; i++){
+				var stock = _.findWhere(user.stocks, {ticker: tickers[i]});
+				reorderedStocks.push(stock);
+			}
+			user.stocks = reorderedStocks;
+			user.save(function(error, user){
+				if(error){
+
+				} else {
+					// Also modify session object
+					var newCurrentUser = req.session.currentUser;
+					newCurrentUser.stocks = reorderedStocks;
+					req.session.currentUser = newCurrentUser;
+					res.status(200);
+				}
+			});
+		}
+	});
+
 
 };

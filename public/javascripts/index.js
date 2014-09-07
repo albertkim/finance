@@ -35,16 +35,19 @@ var index = (function(){
 			
 			
 			stocks.push({ticker: ticker});
-			$.ajax({
-				url: "/addStock",
-				type: "POST",
-				data: {
-					ticker: ticker
-				},
-				success: function(data){
-					location.reload();
-				}
-			});
+			// Update database via ajax only if user is logged in
+			if(currentUser != undefined){
+				$.ajax({
+					url: "/addStock",
+					type: "POST",
+					data: {
+						ticker: ticker
+					},
+					success: function(data){
+						location.reload();
+					}
+				});
+			}
 			
 		});
 
@@ -59,8 +62,20 @@ var index = (function(){
 				});
 				// Update the ui element representations
 				stockRowElements = $(".stock-row");
-				// Update database via ajax
-				
+				// Update database via ajax only if user is logged in
+				if(currentUser != undefined){
+					$.ajax({
+						url: "/reorderStocks",
+						type: "POST",
+						traditional: true,
+						data: {
+							tickers: newOrder
+						},
+						success: function(data){
+
+						}
+					});
+				}
 			}
 		});
 
@@ -72,16 +87,21 @@ var index = (function(){
 				var ticker = stock.ticker;
 				drawChartFromTicker(ticker, stockRowElement);
 				stockRowElement.find(".delete").on("click", function(){
-					$.ajax({
-						url: "/deleteStock",
-						type: "POST",
-						data: {
-							ticker: ticker
-						},
-						success: function(data){
-							location.reload();
-						}
-					});
+					// Remove row
+					stockRowElement.remove();
+					// Only delete if user is logged in
+					if(currentUser != undefined){
+						$.ajax({
+							url: "/deleteStock",
+							type: "POST",
+							data: {
+								ticker: ticker
+							},
+							success: function(data){
+								location.reload();
+							}
+						});
+					}
 				});
 			})(i, stocks, stockRowElements);
 		}
