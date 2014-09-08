@@ -3,14 +3,15 @@ var drawChartFromTicker = function(ticker, row){
 	var chartElement = row.find(".chart");
 	var summaryElement = row.find(".summary");
 
-  var url = "http://query.yahooapis.com/v1/public/yql?q=";
+  // var url = "http://query.yahooapis.com/v1/public/yql?q=";
   
   var currentDate = new Date();
-  var currentDateString = currentDate.getFullYear() + "-" + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + "0" + currentDate.getDay();
-  var date6MonthsAgo = new Date();;
-  var date6MonthsAgo = new Date(date6MonthsAgo.setMonth(currentDate.getMonth() - 3));
-  var date6MonthsAgoString = date6MonthsAgo.getFullYear() + "-" + ("0" + (date6MonthsAgo.getMonth() + 1)).slice(-2) + "-" + "0" + date6MonthsAgo.getDay();
+  var currentDateString = currentDate.getFullYear() + "-" + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + "0" + currentDate.getDate();
+  var previousDate = new Date();;
+  var previousDate = new Date(previousDate.setMonth(currentDate.getMonth() - 3));
+  var previousDateString = previousDate.getFullYear() + "-" + ("0" + (previousDate.getMonth() + 1)).slice(-2) + "-" + "0" + previousDate.getDate();
   
+  /*
   var query = 'select * from yahoo.finance.historicaldata where symbol = "' 
           + ticker 
           + '" and startDate = "' 
@@ -19,9 +20,13 @@ var drawChartFromTicker = function(ticker, row){
           + currentDateString
           + '"';
   query = query + "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+  */
+  var url = "http://www.quandl.com/api/v1/datasets/WIKI/" + ticker + ".json";
+  var params = "?&trim_start=" + previousDateString + "&trim_end=" + currentDateString;
+  var auth = "&auth_token=sok7xuv8xDR_9LooZmaZ";
 
   $.ajax({
-    url: url + query,
+    url: url + params + auth,
     dataType: "json",
     success: function(data){
     	drawChartWithData(chartElement, data);
@@ -43,16 +48,17 @@ var drawChartWithData = function(selector, data){
 	selector.attr("width", parentWidthString);
 
   // Parse data to work with charts
-  var results = data.query.results.quote;
+  var results = data.data;
+  console.log(results);
   // Data gets returned in reverse for some reason
   results = results.reverse();
   
   var prevMonth = 0;
   dateList = _.map(results, function(item, key, list){
-    var splitDate = item.Date.toString().split("-");
+    var splitDate = item[0].toString().split("-");
     if((prevMonth !== splitDate[1]) && key !== 0){
       prevMonth = splitDate[1];
-      var dateString = item.Date;
+      var dateString = item[0];
       var dateStringParts = dateString.split("-");
       var monthString = dateStringParts[1];
       return monthString;
@@ -62,7 +68,7 @@ var drawChartWithData = function(selector, data){
     }
   });
   parsedList = _.map(results, function(item){
-    return item.Close;
+    return item[4];
   });
   
   // Set up canvas
@@ -85,10 +91,10 @@ var drawChartWithData = function(selector, data){
 var drawSummary = function(selector, data){
 
 	// Get most recent datapoint
-	var recentData = data.query.results.quote[data.query.results.quote.length-1];
+	var recentData = data.data[data.data.length-1];
 
-	var closePrice = recentData.Adj_Close;
-	var changePrice = Number(recentData.Adj_Close) - Number(recentData.Open);
+	var closePrice = recentData[4];
+	var changePrice = Number(recentData[4]) - Number(recentData[1]);
 	changePrice = changePrice.toFixed(2);
 
 	selector.append("<strong style='font-size: 200%'>" + closePrice + "</strong>");
