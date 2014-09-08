@@ -2,6 +2,7 @@ var drawChartFromTicker = function(ticker, row){
 
 	var chartElement = row.find(".chart");
 	var summaryElement = row.find(".summary");
+	var newsElement = row.find(".news");
 
   // var url = "http://query.yahooapis.com/v1/public/yql?q=";
   
@@ -12,6 +13,7 @@ var drawChartFromTicker = function(ticker, row){
   var previousDateString = previousDate.getFullYear() + "-" + ("0" + (previousDate.getMonth() + 1)).slice(-2) + "-" + "0" + previousDate.getDate();
   
   /*
+  // Previous query from yahoo finance
   var query = 'select * from yahoo.finance.historicaldata where symbol = "' 
           + ticker 
           + '" and startDate = "' 
@@ -21,6 +23,7 @@ var drawChartFromTicker = function(ticker, row){
           + '"';
   query = query + "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
   */
+
   var url = "http://www.quandl.com/api/v1/datasets/WIKI/" + ticker + ".json";
   var params = "?&trim_start=" + previousDateString + "&trim_end=" + currentDateString;
   var auth = "&auth_token=sok7xuv8xDR_9LooZmaZ";
@@ -31,9 +34,20 @@ var drawChartFromTicker = function(ticker, row){
     success: function(data){
     	drawChartWithData(chartElement, data);
     	drawSummary(summaryElement, data);
+    	drawNews(newsElement, ticker);
     }
   });
 };
+
+/* Quandl API notes:
+	The 'data' property of the returned data contains the price data for each day
+	Each datapoint is an array (it should be an object, but such is life), with each index holding a piece of price data as follows:
+	0: Date string
+	1: Open price
+	2: High price
+	3: Low price
+	4: Close price
+*/
 
 var drawChartWithData = function(selector, data){
 
@@ -49,7 +63,6 @@ var drawChartWithData = function(selector, data){
 
   // Parse data to work with charts
   var results = data.data;
-  console.log(results);
   // Data gets returned in reverse for some reason
   results = results.reverse();
   
@@ -107,4 +120,19 @@ var drawSummary = function(selector, data){
 		selector.append("<strong style='font-size: 200%; color: #00CC00'>" + changePrice + "</strong>");
 	}
 
+};
+
+var drawNews = function(selector, ticker){
+	// Get news from the Yahoo Finance news API
+	$.ajax({
+		url: "/getNews",
+		type: "POST",
+		dataType: 'json',
+		data: {
+			ticker: ticker
+		},
+		success: function(data){
+			console.log(data);
+		}
+	});
 };

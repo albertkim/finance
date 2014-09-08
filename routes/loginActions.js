@@ -5,6 +5,7 @@ exports.login = function(req, res){
 	userModel.login(username, password, function(error, user){
 		if(error){
 			console.log(error);
+			res.send(error);
 		} else{
 			// Put currentUser object in session
 			req.session.currentUser = user;

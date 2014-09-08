@@ -5,6 +5,8 @@ router.get('/register', function(req, res) {
 
 router.post("/register", function(req, res) {
 
+	var userModel = mongoose.model("users");
+
 	// Put into db
 	var body = req.body;
 	var username = req.body.username;
@@ -30,7 +32,6 @@ router.post("/register", function(req, res) {
 		var hashedPassword = bcrypt.hashSync(password);
 		console.log("Hashed password: " + hashedPassword);
 
-		var userModel = mongoose.model("users");
 		var data = {
 			username: username,
 			password: hashedPassword,
@@ -44,11 +45,20 @@ router.post("/register", function(req, res) {
 			} else{
 				console.log("User successfully created");
 				console.log(user);
+				userModel.login(username, password, function(error, data){
+					if(error){
+						console.log(error);
+					} else{
+						// Put currentUser object in session
+						req.session.currentUser = user;
+						console.log("User login successful");
+						res.redirect("/");
+					}
+				});
+				
 			}
 		});
 	}
-
-	res.redirect("/");
 
 });
 

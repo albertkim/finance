@@ -90,10 +90,60 @@ exports.reorderStocks = function(req, res){
 					newCurrentUser.stocks = reorderedStocks;
 					req.session.currentUser = newCurrentUser;
 					res.status(200);
+					res.send();
 				}
 			});
 		}
-	});
+	});	// userModel.findOne
 
+};
+
+// Proxy request to get yahoo finance news via ajax
+exports.getNews = function(req, res){
+	// Gets ticker through the request body
+	var ticker = req.body.ticker;
+	var feedMeta;
+	var articles = [];
+	console.log("Getting news for ticker: " + ticker);
+
+	http.get("http://feeds.finance.yahoo.com/rss/2.0/headline?s=" + ticker + "&region=US&lang=en-US", function(response) {
+		
+	  response.pipe(new feedParser({}))
+	    .on('error', function(error){
+	      // TODO: Tell the user we just had a melt-down
+	      console.error("error");
+	      console.log(error);
+	    })
+	    .on('meta', function(meta){
+	      // Store the metadata for later use
+	      console.log("meta");
+	      console.log(meta);
+	      feedMeta = meta;
+	    })
+      .on('readable', function(){
+        var stream = this, item;
+        while (item = stream.read()){
+          // Each 'readable' event will contain 1 article
+          // Add the article to the list of episodes
+          var article = {
+	          'title': item.title,
+	          'mediaUrl': item.link,
+	          'description': item.description,
+	          'publicationDate': item.pubDate,
+          };
+          articles.push(article);
+        }
+      })
+      .on('end', function(){
+        var result = {
+          'feedName': feedMeta.title,
+          'website': feedMeta.link,
+          'articles': articles
+        };
+
+        // TODO: return 'result' to the user in some fashion
+        res.send(result);
+      });
+	});
 
 };

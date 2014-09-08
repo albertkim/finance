@@ -29,6 +29,7 @@ usersSchema.statics.login = function(username, password, callback){
 				callback(false, user);
 			} else{
 				callback("Password is incorrect", undefined);
+				callback("Password is incorrect", user);
 			}
 		}
 	});

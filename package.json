@@ -17,6 +17,8 @@
     "bcrypt-nodejs": "*",
     "cookie-session": "*",
     "async": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "feedparser": "*",
+    "http": "*"
   }
 }
