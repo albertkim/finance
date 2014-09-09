@@ -133,6 +133,15 @@ var drawNews = function(selector, ticker){
 		},
 		success: function(data){
 			console.log(data);
+			// Display the first 3 news pieces on the selector
+			selector.find("#news1").attr("href", data.articles[0].mediaUrl);
+			selector.find("#news1").text(data.articles[0].title);
+
+			selector.find("#news2").attr("href", data.articles[1].mediaUrl);
+			selector.find("#news2").text(data.articles[1].title);
+
+			selector.find("#news3").attr("href", data.articles[2].mediaUrl);
+			selector.find("#news3").text(data.articles[2].title);
 		}
 	});
 };

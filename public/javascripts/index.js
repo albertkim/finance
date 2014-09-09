@@ -47,7 +47,10 @@ var index = (function(){
 						location.reload();
 					}
 				});
-			}
+			}	// currentUser != undefined
+		});
+		$("#portfolioSubmit").unbind();
+		$("#portfolioSubmit").on("click", function(){
 			
 		});
 
