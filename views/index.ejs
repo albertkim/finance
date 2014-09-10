@@ -12,6 +12,7 @@
 		<script src="/javascripts/libraries/underscore.js"></script>
 		<script src="/javascripts/libraries/bootstrap.js"></script>
 		<script src="/javascripts/libraries/Chartjs/Chart.js"></script>
+		<script src="/javascripts/libraries/newsTicker.js"></script>
 		<script src="/javascripts/index.js"></script>
 	</head>
 
@@ -75,14 +76,11 @@
 							<strong style="font-size: 200%">(Portfolio)</strong>
 							<br>
 						</div>
-						<div class="col-lg-6" style="padding: 0">
-							<canvas class="chart" width="300px" height="120px"></canvas>
+						<div class="col-lg-5" style="padding: 0">
+							<!-- <canvas class="chart" width="300px" height="120px"></canvas> -->
 						</div>
-						<div class="col-lg-3 news" style="padding-left: 20px">
-							<p><strong>News</strong></p>
-							<p><a id="news1">News article 1</a></p>
-							<p><a id="news2">News article 2</a></p>
-							<p><a id="news3">News article 3</a></p>
+						<div class="col-lg-4 news" style="padding-left: 20px">
+							<p><strong>Something</strong></p>
 						</div>
 						<div class="col-lg-1 options">
 							<p><a>Edit</a></p>
@@ -102,14 +100,18 @@
 							<strong style="font-size: 200%"><a><%- stocks[i].ticker %></a></strong>
 							<br>
 						</div>
-						<div class="col-lg-6" style="padding: 0">
+						<div class="col-lg-5" style="padding: 0">
 							<canvas class="chart" width="300px" height="120px"></canvas>
 						</div>
-						<div class="col-lg-3 news" style="padding-left: 20px">
+						<div class="col-lg-4 news" style="padding-left: 20px">
 							<p><strong><%- stocks[i].ticker %> News</strong></p>
-							<p><a id="news1">News article 1</a></p>
-							<p><a id="news2">News article 2</a></p>
-							<p><a id="news3">News article 3</a></p>
+							<ul id="newsList"></ul>
+							<div class="col-lg-2">
+								<div id="newsNext" style="cursor: pointer">Prev</div>
+							</div>
+							<div class="col-lg-2">
+								<div id="newsPrev" style="cursor: pointer">Next</div>
+							</div>
 						</div>
 						<div class="col-lg-1 options">
 							<p><a>Edit</a></p>
@@ -140,14 +142,18 @@
 				<strong style="font-size: 200%"><a>{{ticker}}</a></strong>
 				<br>
 			</div>
-			<div class="col-lg-6" style="padding: 0">
+			<div class="col-lg-5" style="padding: 0">
 				<canvas class="chart" width="300px" height="120px"></canvas>
 			</div>
-			<div class="col-lg-3 news" style="padding-left: 20px">
-				<strong>News</strong>
-				<a><p>News article 1 stocks go soaring!</p></a>
-				<a><p>News article 2 stocks tank</p></a>
-				<a><p>News article 3 the end of the financial markets</p></a>
+			<div class="col-lg-4 news" style="padding-left: 20px">
+				<p><strong>{{ticker}} News</strong></p>
+				<ul id="newsList"></ul>
+				<div class="col-lg-2">
+					<div id="newsNext" style="cursor: pointer">Prev</div>
+				</div>
+				<div class="col-lg-2">
+					<div id="newsPrev" style="cursor: pointer">Next</div>
+				</div>
 			</div>
 			<div class="col-lg-1 options">
 				<p><a>Edit</a></p>
@@ -157,6 +163,13 @@
 				<hr>
 			</div>
 		</div>
+	</script>
+
+
+	<script id="news-template" type="text/x-handlebars-template">
+		<li>
+			<a href="{{link}}" style="">{{headline}}</a>
+		</li>
 	</script>
 
 </html>

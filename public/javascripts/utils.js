@@ -57,10 +57,7 @@ var drawChartWithData = function(selector, data){
 		pointDot : false
 	});
 	
-	// Resize the canvas
-	var parentWidth = selector.parent().width()/1.5;
-	parentWidthString = parentWidth.toString() + "px";
-	selector.attr("width", parentWidthString);
+
 
   // Parse data to work with charts
   var results = data.data;
@@ -88,6 +85,12 @@ var drawChartWithData = function(selector, data){
   // Set up canvas
   Chart.defaults.global.showTooltips = false;
   var ctx = selector.get(0).getContext("2d");
+
+	// Resize the canvas
+	var parentWidth = selector.parent().width()/1.5;
+	parentWidthString = parentWidth.toString() + "px";
+	ctx.canvas.width = parentWidth;
+
   var myNewChart = new Chart(ctx);
   var data = {
     labels: dateList,
@@ -129,6 +132,16 @@ var drawSummary = function(selector, data){
 };
 
 var drawNews = function(selector, ticker){
+	// Uses this jquery news ticker library:
+	// http://risq.github.io/jquery-advanced-news-ticker/index.html
+	selector.find("#newsList").newsTicker({
+		row_height: 40,
+		duration: 10000,
+		nextButton: selector.find("#newsPrev"),
+		prevButton: selector.find("#newsNext"),
+	});
+	selector.find("#newsList").newsTicker("stop");
+
 	// Get news from the Yahoo Finance news API
 	$.ajax({
 		url: "/getNews",
@@ -138,15 +151,21 @@ var drawNews = function(selector, ticker){
 			ticker: ticker
 		},
 		success: function(data){
-			// Display the first 3 news pieces on the selector
-			selector.find("#news1").attr("href", data.articles[0].mediaUrl);
-			selector.find("#news1").text(data.articles[0].title);
 
-			selector.find("#news2").attr("href", data.articles[1].mediaUrl);
-			selector.find("#news2").text(data.articles[1].title);
+			console.log(data);
 
-			selector.find("#news3").attr("href", data.articles[2].mediaUrl);
-			selector.find("#news3").text(data.articles[2].title);
-		}
+			for(var i=0; i<data.articles.length; i++){
+				// Append the news article
+				var source = $("#news-template").html();
+				var template = Handlebars.compile(source);
+				var context = {
+					link: data.articles[i].mediaUrl,
+					headline: data.articles[i].title
+				}
+				var html = template(context);
+				selector.find("#newsList").append(html);
+			}
+
+		}	// Success
 	});
 };
