@@ -20,6 +20,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
 var stockActions = require("./routes/stockActions");
+var portfolioActions = require("./routes/portfolioActions");
 var loginActions = require("./routes/loginActions");
 
 var app = express();
@@ -69,6 +70,8 @@ app.post("/addStock", stockActions.addStock);
 app.post("/deleteStock", stockActions.deleteStock);
 app.post("/reorderStocks", stockActions.reorderStocks);
 app.post("/getNews", stockActions.getNews);
+app.post("/addPortfolio", portfolioActions.addPortfolio);
+app.post("/deletePortfolio", portfolioActions.deletePortfolio);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

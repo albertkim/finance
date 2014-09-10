@@ -103,6 +103,8 @@ var drawChartWithData = function(selector, data){
 
 var drawSummary = function(selector, data){
 
+	console.log(data);
+
 	// Get most recent datapoint
 	var recentData = data.data[data.data.length-1];
 

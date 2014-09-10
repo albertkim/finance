@@ -23,6 +23,8 @@ var index = (function(){
 		$("#stockSubmit").on("click", function(){
 			var ticker = $("#tickerInput").val();
 			
+			/*
+			// Draw the element without refreshing the page with the new data
 			var source = $("#stock-template").html();
 			var template = Handlebars.compile(source);
 			var context = {ticker: ticker}
@@ -32,6 +34,7 @@ var index = (function(){
 			stockRowElements = $(".stock-row");
 			console.log($(stockRowElements[0]));
 			drawChartFromTicker(ticker, $(stockRowElements[0]));
+			*/
 			
 			
 			stocks.push({ticker: ticker});
@@ -51,7 +54,20 @@ var index = (function(){
 		});
 		$("#portfolioSubmit").unbind();
 		$("#portfolioSubmit").on("click", function(){
-			
+			var name = $("#portfolioInput").val();
+			portfolios.push({name: name, stocks: []});
+			if(currentUser != undefined){
+				$.ajax({
+					url: "/addPortfolio",
+					type: "POST",
+					data: {
+						name: name
+					},
+					success: function(data){
+						location.reload();
+					}
+				});
+			}
 		});
 
 		// Initialize Jquery-UI's sortable on each list
@@ -107,7 +123,33 @@ var index = (function(){
 					}
 				});
 			})(i, stocks, stockRowElements);
-		}
+		};
+
+		for(var i=0; i<portfolioRowElements.length; i++){
+			(function(i, portfolios, portfolioRowElements){
+				var portfolioRowElement = $(portfolioRowElements[i]);
+				var portfolio = portfolios[i];
+				var name = portfolio.name;
+				portfolioRowElement.find(".delete").on("click", function(){
+					console.log("Delete");
+					// Remove row
+					portfolioRowElement.remove();
+					// Only delete if user is logged in
+					if(currentUser != undefined){
+						$.ajax({
+							url: "/deletePortfolio",
+							type: "POST",
+							data: {
+								name: name
+							},
+							success: function(data){
+								location.reload();
+							}
+						});
+					}
+				});
+			})(i, portfolios, portfolioRowElements);
+		};
 
 	};
 

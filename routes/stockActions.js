@@ -116,8 +116,6 @@ exports.getNews = function(req, res){
 	    })
 	    .on('meta', function(meta){
 	      // Store the metadata for later use
-	      console.log("meta");
-	      console.log(meta);
 	      feedMeta = meta;
 	    })
       .on('readable', function(){
