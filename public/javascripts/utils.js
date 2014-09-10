@@ -53,7 +53,8 @@ var drawChartWithData = function(selector, data){
 
 	$.extend(Chart.defaults.global, {
 		scaleShowGridLines : false,
-		animation : false
+		animation : false,
+		pointDot : false
 	});
 	
 	// Resize the canvas
@@ -91,12 +92,15 @@ var drawChartWithData = function(selector, data){
   var data = {
     labels: dateList,
     datasets: [{
-        fillColor: "rgba(151,187,205,0.2)",
-        pointStrokeColor: "#fff",
+        fillColor: "rgba(151,187,205,0.5)",
         data: parsedList
     }]
   };
-  var options = null;
+  var options = {
+    scaleShowGridLines : true,
+		animation : false,
+		pointDot : false
+  };
   var myLineChart = new Chart(ctx).Line(data, options);
 
 };
