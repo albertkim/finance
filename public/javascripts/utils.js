@@ -7,10 +7,10 @@ var drawChartFromTicker = function(ticker, row){
   // var url = "http://query.yahooapis.com/v1/public/yql?q=";
   
   var currentDate = new Date();
-  var currentDateString = currentDate.getFullYear() + "-" + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + "0" + currentDate.getDate();
+  var currentDateString = currentDate.getFullYear() + "-" + ("0" + (currentDate.getMonth() + 1)).slice(-2) + "-" + ("0" + currentDate.getDate()).slice(-2);
   var previousDate = new Date();;
   var previousDate = new Date(previousDate.setMonth(currentDate.getMonth() - 3));
-  var previousDateString = previousDate.getFullYear() + "-" + ("0" + (previousDate.getMonth() + 1)).slice(-2) + "-" + "0" + previousDate.getDate();
+  var previousDateString = previousDate.getFullYear() + "-" + ("0" + (previousDate.getMonth() + 1)).slice(-2) + "-" + ("0" + previousDate.getDate()).slice(-2);
   
   /*
   // Previous query from yahoo finance
@@ -132,7 +132,6 @@ var drawNews = function(selector, ticker){
 			ticker: ticker
 		},
 		success: function(data){
-			console.log(data);
 			// Display the first 3 news pieces on the selector
 			selector.find("#news1").attr("href", data.articles[0].mediaUrl);
 			selector.find("#news1").text(data.articles[0].title);
